@@ -1,6 +1,5 @@
 
-// Schema
-// Book (namn, år, läst/ej läst)
+// Schema fär Bok (namn, år, läst/ej läst)
 
     const mongoose = require("mongoose");
 
@@ -18,11 +17,6 @@
             type: Boolean,
             required: [true, "- Ange om du har läst/ej läst."]
         }
-
-        //name: String,
-        //year: Number,
-        //read: Boolean
-    
     });
 
     const Book = mongoose.model("Book", bookSchema);

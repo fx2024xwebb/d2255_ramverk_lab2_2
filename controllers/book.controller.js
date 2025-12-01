@@ -1,6 +1,7 @@
 
-// Kontroller
+// Kontroller för GET, POST, PUT, DELETE
 
+// Hämta Schema
 const Book = require("../models/book.model");
 
 // Hämta alla inlägg
@@ -31,11 +32,12 @@ exports.addEntry = async(request, h) => {
 exports.updateEntry = async(request, h) => {
 
     try {
-        
+        // Inkommande id
         const id = request.params.id;
 
         const data = request.payload;
 
+        // Variabler för enskilda data
         const name = data.name;
         const year = data.year;
         const read = data.read;
@@ -53,7 +55,7 @@ exports.updateEntry = async(request, h) => {
 exports.getById = async(request, h) => {
 
     try {
-
+        // Id + hitta via id
         const id = request.params.id;
 
         const bookId = await Book.findById(id);
@@ -73,10 +75,8 @@ exports.getById = async(request, h) => {
 exports.deleteEntry = async(request, h) => {
 
     try {
-
+        // id + ta bort via id:t
         const id = request.params.id;
-
-        console.log(id); //test
 
         const result = await Book.deleteOne({_id: id});
 
