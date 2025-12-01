@@ -1,75 +1,30 @@
+// Routes
 
-// Server JS
+//const Book = require("../models/book.model");
+const bookController = require("../controllers/book.controller");
 
-'use strict';
+module.exports = (server) => {
 
-const Hapi = require('@hapi/hapi');
-const { request } = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
-
-const init = async () => {
-
-    const server = Hapi.server({
-        port: 5000,
-        host: '0.0.0.0'
-    });
-
-
-    // Databasanslutning
-    mongoose.connect(process.env.DATABASE).then(() => {
-        console.log("MongoDb connect OK");
-    }).catch((error) => {
-        console.error("Error connecting to database:" + error);
-    }); 
-
-    // Anslut till routes
-    require("./routes/book.route")(server);
-
-    /* // Model: Book (namn, år, läst/ej läst)
-    const Book = mongoose.model("Book", {
-
-        name: {
-            type: String,
-            required: [true, "- Titel måste anges."]
-        },
-        year: {
-            type: Number,
-            required: [true, "- Skriv in ett utgivningsår."]
-        },
-        read: {
-            type: Boolean,
-            required: [true, "- Ange om du har läst/ej läst."]
-        }
-
-        //name: String,
-        //year: Number,
-        //read: Boolean
-    
-    }) */
-
-    // Routes
-    /* server.route([
+server.route([
         {
             // Route för GET: Hämta alla inlägg
             method: "GET",
             path: "/books",
-            handler: async (request, h) => {
-                try {
+            handler: bookController.getAll
+                /* try {
 
                     return await Book.find();
 
                 } catch (error) {
                     return h.response('Error retrieving from database' + error).code(500);
-                }
-            }
+                } */
         },
         {
             // Route för POST: Lägg till nytt inlägg
             method: "POST",
             path: "/books",
-            handler: async (request, h) => {
-                try {
+            handler: bookController.addEntry
+                /* try {
 
                     const book = new Book(request.payload);
                     return await book.save();
@@ -77,13 +32,14 @@ const init = async () => {
                 } catch (error) {
                     return h.response('Error with post' + error).code(500);
                 }
-            }
+            } */
         },
         {
             // Route för DELETE: Ta bort via id
             method: "DELETE",
             path: "/books/{id}",
-            handler: async (request, h) => {
+            handler: bookController.deleteEntry
+            /* handler: async (request, h) => {
 
                 const id = request.params.id;
 
@@ -102,13 +58,14 @@ const init = async () => {
                 }   catch (error) {
                     return h.response({ message: 'Error with delete' }).code(500);
                 }
-            }
+            } */
         },
         {
             // Route för PUT: Update
             method: "PUT",
             path: "/books/{id}",
-            handler: async (request, h) => {
+            handler: bookController.updateEntry
+            /* handler: async (request, h) => {
 
                 try {
                     const id = request.params.id;
@@ -133,13 +90,15 @@ const init = async () => {
                         return h.response({ message: 'Error with update'}).code(500);
                 }
 
-            }
+            } */
         },
         {
             // Route GET: Hämta specifikt id endast
             method: "GET",
             path: "/books/{id}",
-            handler: async (request, h) => {
+            handler: bookController.getById
+
+            /* handler: async (request, h) => {
                 try {
                     const id = request.params.id;
 
@@ -154,21 +113,8 @@ const init = async () => {
                 }   catch (error) {
                         return h.response({ message: 'Error with get id' }).code(500);
                 }
-            }
+            } */
         }
 
-    ]) */
-
-    // Start
-    await server.start();
-    console.log('Server OK, %s', server.info.uri);
-};
-
-process.on('unhandledRejection', (err) => {
-    
-    console.log(err);
-    process.exit(1);
-
-});
-
-init();
+    ])
+}
