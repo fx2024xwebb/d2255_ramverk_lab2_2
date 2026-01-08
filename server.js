@@ -13,7 +13,15 @@ const init = async () => {
 
     const server = Hapi.server({
         port: 5000,
-        host: '0.0.0.0'
+        host: '0.0.0.0',
+        routes: {
+            cors: {
+                origin: ['*'],
+                //methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"], Funkar ej??
+                headers: ['Accept', 'Authorization', 'Content-Type'],
+                credentials: false
+            },
+        }
     });
 
 
